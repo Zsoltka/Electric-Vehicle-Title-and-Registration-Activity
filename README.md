@@ -11,10 +11,18 @@
 - Navicat
 - Power BI
 
+## Data Cleansing
+
+The original raw dataset comprised 35 columns and 681,315 rows. I performed data cleaning and restructuring in Excel, following these steps:
+
+- I identified and removed duplicates across all 35 columns. A total of 26 duplicate rows were found and eliminated after ensuring their absence wouldn't interfere with subsequent analysis. Inconsistencies in data, including typos, blank spaces, and punctuation errors, were addressed. The handling of NULL values in crucial columns was thoughtfully considered.
+- I divided the data into several tables for more manageable manipulation and analysis. After thorough examination, I created the following tables (the image shows the tables after there were uploading them in Navicat): 
+ 
+![full diagram](https://github.com/Zsoltka/Electric-Vehicle-Title-and-Registration-Activity/assets/133663142/7816056d-03a5-48da-bae8-38ecfc2d4e91)
+
 ## Project summary
 
 This project engages in an in-depth data analysis of electric vehicle title and registration activity in Washington state, based on the dataset found at https://catalog.data.gov/dataset/electric-vehicle-title-and-registration-activity.
-
 
 
 ## Questions to Answer
