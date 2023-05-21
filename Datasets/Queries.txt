@@ -1,4 +1,4 @@
-1. Electric Vehivcle Adoption
+-- 1. Electric Vehivcle Adoption
 
 SELECT
 	EXTRACT( YEAR FROM t.DOL_Transaction_Date ) AS Transaction_Year,
@@ -10,10 +10,10 @@ GROUP BY
 	EXTRACT( YEAR FROM t.DOL_Transaction_Date ) 
 ORDER BY
 	Transaction_Year;
+----------------------------------------------------------------------------------------------
+-- 2.Electric Vehicles by Alternative Fuel
 
-2.Electric Vehicles by Alternative Fuel
-
-SSELECT
+SELECT
 	COUNT( DOL_Vehicle_ID ) AS Number_of_Vehicles,
 	Clean_Alternative_Fuel_Vehicle_Type 
 FROM
@@ -22,28 +22,25 @@ GROUP BY
 	Clean_Alternative_Fuel_Vehicle_Type 
 ORDER BY
 	Number_of_Vehicles;
-
+----------------------------------------------------------------------------------------------
 -- 3. Electric Vehicle Sales by Make and Model
 SELECT
     Vehicle_Name_and_Model,
     COUNT(*) AS Number_of_Vehicles
 FROM
-    (
-        SELECT
+    (SELECT
             IFNULL(CONCAT(v.Make, ' - ', v.Model), 'Missing Data') AS Vehicle_Name_and_Model
         FROM
             Vehicles v
         JOIN
             Transactions t ON v.DOL_Vehicle_ID = t.DOL_Vehicle_ID
         WHERE
-            t.Transaction_Type = 'Original Title' OR t.Transaction_Type = 'Transfer Title'
-    ) AS derived_table
+            t.Transaction_Type = 'Original Title' OR t.Transaction_Type = 'Transfer Title') AS derived_table
 GROUP BY
     Vehicle_Name_and_Model
 ORDER BY
     Number_of_Vehicles desc;
-
-
+----------------------------------------------------------------------------------------------
 -- 4. Total Sales by New/Used Vehicles	
 	
 	SELECT
@@ -59,8 +56,8 @@ GROUP BY
     t.Transaction_Type
 ORDER BY
     New_or_Used_Vehicle_Sales;
-
-5. Electric Vehicle Distribution by Country In WA
+----------------------------------------------------------------------------------------------
+-- 5. Electric Vehicle Distribution by Country In WA
 SELECT 
 County,
 State_of_Residence,
@@ -71,9 +68,8 @@ GROUP BY
 State_of_Residence, County
 ORDER BY 
 Number_of_Electric_Vehicles desc;
-
-6. Electric Vehicle Primary Use
-
+----------------------------------------------------------------------------------------------
+-- 6. Electric Vehicle Primary Use
 SELECT
     COUNT(DOL_Vehicle_ID) as Number_of_Vehicles,
     CASE 
@@ -88,7 +84,7 @@ GROUP BY
     Vehicle_Primary_Use_Category
 ORDER BY
     Number_of_Vehicles DESC;
-
+----------------------------------------------------------------------------------------------
 7. Average Electric Range by Make and Model
 SELECT 
 Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
@@ -102,7 +98,7 @@ GROUP BY
 Make
 ORDER BY 
 Average_Electric_Range DESC;
-
+--------
 SELECT 
 Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
 Make,
@@ -115,7 +111,7 @@ GROUP BY
 Make
 ORDER BY 
 Average_Electric_Range DESC;
-
+--------
 SELECT 
   Clean_Alternative_Fuel_Vehicle_Type,
   Make,
@@ -130,9 +126,8 @@ GROUP BY
   Make
 ORDER BY 
   Average_Electric_Range DESC;
-
-8. Electric Vehicle Sales by Electric Utility
-
+----------------------------------------------------------------------------------------------
+-- 8. Electric Vehicle Sales by Electric Utility
 SELECT
     IFNULL(Electric_Utility, 'NO DATA') as Electric_Utility,
     COUNT(DISTINCT t.DOL_Vehicle_ID) as Number_of_Vehicles
