@@ -1,8 +1,8 @@
-## 1. Electric Vehivcle Adoption
+1. Electric Vehivcle Adoption
 
 SELECT
-	<br>EXTRACT( YEAR FROM t.DOL_Transaction_Date ) AS Transaction_Year,
-	<br>COUNT( DISTINCT v.DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles</br>
+	EXTRACT( YEAR FROM t.DOL_Transaction_Date ) AS Transaction_Year,
+	COUNT( DISTINCT v.DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles</br>
 FROM
 	vehicles v
 	JOIN transactions t ON v.DOL_Vehicle_ID = t.DOL_Vehicle_ID 
