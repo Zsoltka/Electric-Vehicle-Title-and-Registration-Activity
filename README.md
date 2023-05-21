@@ -45,6 +45,9 @@ This project engages in an in-depth data analysis of electric vehicle title and 
 **9. Electric Vehicle Sales by Legislative District and Electric Utility:** Analyzing the distribution of electric vehicle sales across legislative districts and electric utility service areas to identify areas with stronger support for clean transportation initiatives.
 
 ## Data analysis
+![image](https://github.com/Zsoltka/Electric-Vehicle-Title-and-Registration-Activity/assets/133663142/c468e501-46f0-492c-b861-e948ace47fe8)
+![image](https://github.com/Zsoltka/Electric-Vehicle-Title-and-Registration-Activity/assets/133663142/35fbe292-07cc-46b1-b07a-aa2a2a89fb66)
+
 1. From our observations, it's evident that the allure of electric vehicles is steadily growing with each passing year. This upward trend can be attributed to an increasing number of automakers venturing into this industry. As more players enter the market, technology continues to evolve, leading to an expanded assortment of electric vehicle options available for consumers. This broader range provides potential buyers with more choices, catering to various preferences and needs.
 
 Furthermore, our data indicates a strong preference among buyers for new electric vehicles. This inclination not only demonstrates the general population's enthusiasm for cutting-edge technologies but also suggests that the pace of advancements in this field is sufficient to stimulate and maintain interest. The preference for new vehicles is a promising sign, as it implies a readiness to embrace the ongoing evolution in automotive technology, specifically in the realm of electric vehicles. This, in turn, could contribute to further advancements and increased adoption rates, propelling the electric vehicle industry forward.
