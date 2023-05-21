@@ -1,0 +1,147 @@
+## 1. Electric Vehivcle Adoption
+
+SELECT
+	EXTRACT( YEAR FROM t.DOL_Transaction_Date ) AS Transaction_Year,
+	COUNT( DISTINCT v.DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles 
+FROM
+	vehicles v
+	JOIN transactions t ON v.DOL_Vehicle_ID = t.DOL_Vehicle_ID 
+GROUP BY
+	EXTRACT( YEAR FROM t.DOL_Transaction_Date ) 
+ORDER BY
+	Transaction_Year;
+
+2.Electric Vehicles by Alternative Fuel
+
+SSELECT
+	COUNT( DOL_Vehicle_ID ) AS Number_of_Vehicles,
+	Clean_Alternative_Fuel_Vehicle_Type 
+FROM
+	vehicles 
+GROUP BY
+	Clean_Alternative_Fuel_Vehicle_Type 
+ORDER BY
+	Number_of_Vehicles;
+
+-- 3. Electric Vehicle Sales by Make and Model
+SELECT
+    Vehicle_Name_and_Model,
+    COUNT(*) AS Number_of_Vehicles
+FROM
+    (
+        SELECT
+            IFNULL(CONCAT(v.Make, ' - ', v.Model), 'Missing Data') AS Vehicle_Name_and_Model
+        FROM
+            Vehicles v
+        JOIN
+            Transactions t ON v.DOL_Vehicle_ID = t.DOL_Vehicle_ID
+        WHERE
+            t.Transaction_Type = 'Original Title' OR t.Transaction_Type = 'Transfer Title'
+    ) AS derived_table
+GROUP BY
+    Vehicle_Name_and_Model
+ORDER BY
+    Number_of_Vehicles desc;
+
+
+-- 4. Total Sales by New/Used Vehicles	
+	
+	SELECT
+    t.Transaction_Type AS New_or_Used_Vehicle_Sales,
+    COUNT(*) AS Number_of_Vehicles
+FROM
+    Vehicles v
+JOIN
+    Transactions t ON v.DOL_Vehicle_ID = t.DOL_Vehicle_ID
+WHERE
+    t.Transaction_Type = 'Original Title' OR t.Transaction_Type = 'Transfer Title'
+GROUP BY
+    t.Transaction_Type
+ORDER BY
+    New_or_Used_Vehicle_Sales;
+
+5. Electric Vehicle Distribution by Country In WA
+SELECT 
+County,
+State_of_Residence,
+COUNT( DISTINCT DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles 
+from location
+where State_of_Residence = 'WA'
+GROUP BY
+State_of_Residence, County
+ORDER BY 
+Number_of_Electric_Vehicles desc;
+
+6. Electric Vehicle Primary Use
+
+SELECT
+    COUNT(DOL_Vehicle_ID) as Number_of_Vehicles,
+    CASE 
+        WHEN Vehicle_Primary_Use in ('Medium-Speed Electric Vehicle', 'Neighborhood Electric Vehicle') THEN 'Medium-Speed Electric Vehicle'
+        WHEN Vehicle_Primary_Use in ('Farm Exempt', 'Farm Use') THEN 'Farm Use'
+        WHEN Vehicle_Primary_Use in ('Commercial', 'Truck', 'For Hire', 'Cab') THEN 'Commercial'
+        ELSE
+            Vehicle_Primary_Use
+    END AS Vehicle_Primary_Use_Category
+FROM vehicles
+GROUP BY
+    Vehicle_Primary_Use_Category
+ORDER BY
+    Number_of_Vehicles DESC;
+
+7. Average Electric Range by Make and Model
+SELECT 
+Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
+Make,
+ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
+from vehicles
+where 
+Electric_Range > 0 and
+Clean_Alternative_Fuel_Vehicle_Type = 'Battery Electric Vehicle (BEV)'
+GROUP BY 
+Make
+ORDER BY 
+Average_Electric_Range DESC;
+
+SELECT 
+Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
+Make,
+ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
+from vehicles
+where 
+Electric_Range > 0 and
+Clean_Alternative_Fuel_Vehicle_Type = 'Plug-in Hybrid Electric Vehicle (PHEV)'
+GROUP BY 
+Make
+ORDER BY 
+Average_Electric_Range DESC;
+
+SELECT 
+  Clean_Alternative_Fuel_Vehicle_Type,
+  Make,
+  CASE 
+    WHEN AVG(DISTINCT Electric_Range) = 0 THEN 'No data'
+    ELSE ROUND(AVG(DISTINCT Electric_Range))
+  END AS Average_Electric_Range
+FROM vehicles
+WHERE 
+  Clean_Alternative_Fuel_Vehicle_Type = 'Hydrogen Powered Vehicle'
+GROUP BY 
+  Make
+ORDER BY 
+  Average_Electric_Range DESC;
+
+8. Electric Vehicle Sales by Electric Utility
+
+SELECT
+    IFNULL(Electric_Utility, 'NO DATA') as Electric_Utility,
+    COUNT(DISTINCT t.DOL_Vehicle_ID) as Number_of_Vehicles
+FROM
+    transactions t
+JOIN location l ON t.DOL_Vehicle_ID = l.DOL_Vehicle_ID
+WHERE Transaction_Type = 'Original Title'
+GROUP BY
+    Electric_Utility
+ORDER BY
+    Number_of_Vehicles DESC
+limit 5;
