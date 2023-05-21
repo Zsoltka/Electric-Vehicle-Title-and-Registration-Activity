@@ -96,6 +96,22 @@ It's crucial to note that the findings of this analysis reflect the data contain
 
 Areas with proactive electric utility services tend to show higher rates of electric vehicle adoption. These utilities may provide charging infrastructure, offer special rates for electric vehicle charging, or promote educational programs about the benefits of electric vehicles.
 
+## Challenges
+
+- Embarking on my first data analysis project, I found myself facing numerous challenges. The entire process was new to me, with each step presenting a fresh learning opportunity.
+- I started with data that wasn't in the best shape. To make it usable for future analysis, I had to dive deep into the data, understand its ins and outs, and organize it into a coherent database. One of the hurdles I encountered was when I was building the 'Location' table. I had to decide whether to use 'DOL' as the main key and remove duplicates, or keep every registration renewal and transfer record. Thinking about the possibility of needing to track a car's sale from one region to another in the future, I opted to keep all registration records. By removing duplicates based on 'DOL Vehicle ID', '2020 Census Tract', and 'DOL Transaction Date', I could monitor a car's re-registration frequency and movement across locations.
+- Loading the data onto Navicat and linking the tables wasn't straightforward and posed its own set of challenges. 
+  - <b>Example: </b> In the course of uploading data, I encountered challenges due to the formats of the data within the tables. A case in point is how the dates in these tables were initially stored as text strings, which made changing them to an actual date format quite tricky.
+However, I managed to tackle this challenge by using a formula: <b>=DATE(RIGHT(E2, 4), MONTH(1&LEFT(E2,3)), MID(E2, FIND(" ", E2) + 1, 2))</b>. Here's a simple breakdown of the formula components:
+      - <b>RIGHT(E2, 4):</b> This part extracts the last four characters from the date, which corresponds to the year.
+      - <b>MONTH(1&LEFT(E2,3)):</b> This segment takes the first three characters from the date, representing the month, and transforms it into a numerical value. The "1&" in this context serves to build a valid date string that the MONTH function can interpret.
+      - <b>MID(E2, FIND(" ",E2)+1,2):</b> This section of the formula identifies the space in the date text, then extracts the two characters following it - these are the day.
+
+- I also had to deal with time constraints, which were made worse by the limitations of the Navicat trial version.
+- Finally, the task of importing query results to Power BI to create an easily-understandable dashboard was made tougher by not having access to Microsoft SQL Server Management Studio. If I had this tool, it would've made executing the project from start to finish using Microsoft's suite of tools a lot smoother.
+
 ## Suggestions for further research
 
+- One area that warrants further analysis is the comparison of new versus used electric vehicle sales. This could potentially be investigated through the creation of a stacked bar graph grouped by annual purchases, providing a visual representation of the yearly variances between new and used electric car sales.
+- A more in-depth look into the primary usage of electric vehicles could also yield interesting results. For instance, the "exempt" category includes governmental vehicles, ambulances, and even farming vehicles. Understanding the number of electric vehicles used for farming and tracking their evolution year over year could provide valuable insights into how electrification is affecting less explored sectors. This would, however, require sourcing and analyzing a different dataset.
 
