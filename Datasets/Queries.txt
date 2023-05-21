@@ -24,6 +24,7 @@ ORDER BY
 	Number_of_Vehicles;
 ----------------------------------------------------------------------------------------------
 -- 3. Electric Vehicle Sales by Make and Model
+
 SELECT
     Vehicle_Name_and_Model,
     COUNT(*) AS Number_of_Vehicles
@@ -43,7 +44,7 @@ ORDER BY
 ----------------------------------------------------------------------------------------------
 -- 4. Total Sales by New/Used Vehicles	
 	
-	SELECT
+SELECT
     t.Transaction_Type AS New_or_Used_Vehicle_Sales,
     COUNT(*) AS Number_of_Vehicles
 FROM
@@ -58,18 +59,22 @@ ORDER BY
     New_or_Used_Vehicle_Sales;
 ----------------------------------------------------------------------------------------------
 -- 5. Electric Vehicle Distribution by Country In WA
+
 SELECT 
-County,
-State_of_Residence,
-COUNT( DISTINCT DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles 
-from location
-where State_of_Residence = 'WA'
+     County,
+     State_of_Residence,
+     COUNT( DISTINCT DOL_Vehicle_ID ) AS Number_of_Electric_Vehicles 
+FROM 
+     Location
+WHERE  
+     State_of_Residence = 'WA'
 GROUP BY
-State_of_Residence, County
+     State_of_Residence, County
 ORDER BY 
-Number_of_Electric_Vehicles desc;
+     Number_of_Electric_Vehicles DESC;
 ----------------------------------------------------------------------------------------------
 -- 6. Electric Vehicle Primary Use
+
 SELECT
     COUNT(DOL_Vehicle_ID) as Number_of_Vehicles,
     CASE 
@@ -79,61 +84,66 @@ SELECT
         ELSE
             Vehicle_Primary_Use
     END AS Vehicle_Primary_Use_Category
-FROM vehicles
+FROM Vehicles
 GROUP BY
     Vehicle_Primary_Use_Category
 ORDER BY
     Number_of_Vehicles DESC;
 ----------------------------------------------------------------------------------------------
 7. Average Electric Range by Make and Model
+
 SELECT 
-Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
-Make,
-ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
-from vehicles
-where 
-Electric_Range > 0 and
-Clean_Alternative_Fuel_Vehicle_Type = 'Battery Electric Vehicle (BEV)'
-GROUP BY 
-Make
-ORDER BY 
-Average_Electric_Range DESC;
---------
-SELECT 
-Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
-Make,
-ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
-from vehicles
-where 
-Electric_Range > 0 and
-Clean_Alternative_Fuel_Vehicle_Type = 'Plug-in Hybrid Electric Vehicle (PHEV)'
-GROUP BY 
-Make
-ORDER BY 
-Average_Electric_Range DESC;
---------
-SELECT 
-  Clean_Alternative_Fuel_Vehicle_Type,
-  Make,
-  CASE 
-    WHEN AVG(DISTINCT Electric_Range) = 0 THEN 'No data'
-    ELSE ROUND(AVG(DISTINCT Electric_Range))
-  END AS Average_Electric_Range
-FROM vehicles
+     Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
+     Make,
+     ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
+FROM 
+     Vehicles
 WHERE 
-  Clean_Alternative_Fuel_Vehicle_Type = 'Hydrogen Powered Vehicle'
+     Electric_Range > 0 and
+     Clean_Alternative_Fuel_Vehicle_Type = 'Battery Electric Vehicle (BEV)'
 GROUP BY 
-  Make
+     Make
 ORDER BY 
-  Average_Electric_Range DESC;
+     Average_Electric_Range DESC;
+--------
+SELECT 
+     Clean_Alternative_Fuel_Vehicle_Type as CAFV_Type,
+     Make,
+     ROUND(AVG (DISTINCT (Electric_Range))) as Average_Electric_Range
+FROM 
+     Vehicles
+WHERE
+     Electric_Range > 0 and
+     Clean_Alternative_Fuel_Vehicle_Type = 'Plug-in Hybrid Electric Vehicle (PHEV)'
+GROUP BY 
+     Make
+ORDER BY 
+     Average_Electric_Range DESC;
+--------
+SELECT 
+     Clean_Alternative_Fuel_Vehicle_Type,
+     Make,
+CASE 
+     WHEN AVG(DISTINCT Electric_Range) = 0 THEN 'No data'
+     ELSE ROUND(AVG(DISTINCT Electric_Range))
+  END AS Average_Electric_Range
+FROM 
+     Vehicles
+WHERE 
+     Clean_Alternative_Fuel_Vehicle_Type = 'Hydrogen Powered Vehicle'
+GROUP BY 
+     Make
+ORDER BY 
+     Average_Electric_Range DESC;
 ----------------------------------------------------------------------------------------------
 -- 8. Electric Vehicle Sales by Electric Utility
+
 SELECT
     IFNULL(Electric_Utility, 'NO DATA') as Electric_Utility,
     COUNT(DISTINCT t.DOL_Vehicle_ID) as Number_of_Vehicles
 FROM
-    transactions t
-JOIN location l ON t.DOL_Vehicle_ID = l.DOL_Vehicle_ID
+    Transactions t
+JOIN Location l ON t.DOL_Vehicle_ID = l.DOL_Vehicle_ID
 WHERE Transaction_Type = 'Original Title'
 GROUP BY
     Electric_Utility
